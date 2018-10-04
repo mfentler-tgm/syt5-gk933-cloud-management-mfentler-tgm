@@ -21,7 +21,7 @@ Diese soll mit einem Namen, einer eMail-Adresse als BenutzerID und einem Passwor
 ### Login
 Der Benutzer soll sich mit seiner ID und seinem Passwort entsprechend authentifizieren können. Bei einem erfolgreichen Login soll eine einfache Willkommensnachricht angezeigt werden.
 
-Die erfolgreiche Implementierung soll mit entsprechenden Testfällen (Acceptance-Tests bez. aller funktionaler Anforderungen mittels Unit-Tests) dokumentiert werden. Verwenden Sie auf jeden Fall ein gängiges Build-Management-Tool (z.B. Maven oder Gradle). Dabei ist zu beachten, dass ein einfaches Deployment möglich ist (auch Datenbank mit z.B. file-based DBMS).
+Die erfolgreiche Implementierung soll mit entsprechenden Testfällen (Acceptance-Tests bez. aller funktionaler Anforderungen mittels Unit-Tests) dokumentiert werden. Verwenden Sie auf jeden Fall ein gängiges Build-Management-Tool (z.B. Gradle). Dabei ist zu beachten, dass ein einfaches Deployment möglich ist (auch Datenbank mit z.B. file-based DBMS).
 
 ## Bewertung
 Gruppengrösse: 1 Person
@@ -39,7 +39,8 @@ Android Restful Webservice Tutorial – Introduction to RESTful webservice – P
 Registration and Login Example with Spring Boot, Spring Security, Spring Data JPA, and HSQL"; Giau Ngo; 5.7.2016; [online](https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/)  
 "Getting Started with Couchbase and Spring Data Couchbase"; Posted by Josh Long on March 16, 2015; [online](https://spring.io/blog/2015/03/16/getting-started-with-couchbase-and-spring-data-couchbase)  
 "REST with Java (JAX-RS) using Jersey - Tutorial"; Lars Vogel; Version 2.7; 27.09.2017; [online](http://www.vogella.com/tutorials/REST/article.html)  
-"Creating a 'hello world' RESTful web service with Spring."; Spring examples; [online](https://github.com/spring-guides/gs-rest-service"Django REST framework"; Tom Christie; online: http://www.django-rest-framework.org/)  
+"Creating a 'hello world' RESTful web service with Spring."; Spring examples; [online](https://github.com/spring-guides/gs-rest-service)  
+"Django REST framework"; Tom Christie; [online](http://www.django-rest-framework.org/)  
 "Eve. The Simple Way to REST"; Nicola Iarocci; [online](http://python-eve.org/)  
 "Heroku makes it easy to deploy and scale Java apps in the cloud"; [online](https://www.heroku.com)  
 
