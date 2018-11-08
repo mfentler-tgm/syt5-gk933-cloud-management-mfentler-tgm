@@ -22,8 +22,94 @@ HSQL ist eine in-Memory realationale Datenbank, die in Java geschrieben wurde. D
 JSP steht für Java Server Pages und ist eine Web-Programmiersprache zur einfachen Erstellung von HTML Webseiten. Mit der Sprache kann man Java in HTML einbinden.
 
 ## Implementierung
+Als erstes wurde das Projekt von der Tutorialwebseite geclont. Bei diesem wird die Userauthentifizierung allerdings mittels Usernamen gemacht. Aus diesem Grund wurden die Methoden so verändert, dass sie nun eine Email stattdessen verwenden.  
+
+Hier wird zum abspeichern der Daten eine User Entity benützt.  
+
+	@Entity
+	@Table(name = "user")
+	public class User {
+		private Long id;
+		private String email;
+		private String password;
+		private String passwordConfirm;
+		private Set<Role> roles;
+
+		@Id
+		@GeneratedValue(strategy = GenerationType.AUTO)
+		public Long getId() {
+			return id;
+		}
+
+		... getter/setter Methoden
+	}
+Weiters existiert auch eine Entity für die Klasse Role. Da diese für die simple Lösung der Aufgabenstellung aber nicht benötigt wird, spreche ich sie hier nicht an. (sowie alle anderen Klassen, die für die einfache Lösung nicht gebraucht werden)
+
+### Repositories
+Die JPA Repositories enthalten Funktionen wie findAll(),save(),... um die Daten zu bearbeiten oder Queries zu erstellen. In dem Fall ist dort die Methode findByEmail definiert (Interface).
+
+### Controller
+Die UserController Klasse handelt das RequestMapping. Wenn die eine Anfrage zum Registrieren kommt, dann überprüft die folgende Methode ob die angegebenen Eingaben valid sind und added dann den User.  
+
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+        userValidator.validate(userForm, bindingResult);
+
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
+        userService.save(userForm);
+
+        securityService.autologin(userForm.getEmail(), userForm.getPasswordConfirm());
+
+        return "redirect:/welcome";
+    }
+
+Die __POST Methode von /login__ ist in dieser Klasse nicht auffindbar, da sie schon von SpringSecurity bereitgestellt wird.  
+
+### Spring Security
+Spring Security wird in diesem Beispiel verwendet um login/die Authentifizierung zu implementieren. Dort finden sich auch die Methoden, wie beispielsweise 'autologin()', die den User nach einer erfolgreichen Registrierung automatisch einloggen.  
+
+Die Klasse userServiceImpl implementiert das Interface userService. Dort wird die Registrierung des Users gemacht. In der Save Methode wird die save Methode des JPA-Repositories aufgerufen und der User gespeichert.  
+
+### Validation
+Um zu überprüfen ob die Input-Daten das richtige Format haben werden sie mit den Einstellungen aus dem File _validation.properties_ verglichen.
+
+### Darstellung
+Für die Darstellung der HTML Seiten werden die .jsp Files verwendet. (src/main/webapp/xxx.jsp)  
+In diesen Files kann man, wie vorher schon beschrieben, Java implementieren. Das Form für die Login Seite kann folgendermaßen aussehen:  
+
+	<form method="POST" action="${contextPath}/login" class="form-signin">
+        <h2 class="form-heading">Log in</h2>
+
+        <div class="form-group ${error != null ? 'has-error' : ''}">
+            <span>${message}</span>
+            <input name="email" type="text" class="form-control" placeholder="Email"
+                   autofocus="true"/>
+            <input name="password" type="password" class="form-control" placeholder="Password"/>
+            <span>${error}</span>
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Log In</button>
+            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+        </div>
+
+    </form>
+
+### Application Properties
+Damit unteranderem die HSQL Datenbank funktioniert, muss man folgenden Inhalt in die application.properties einfügen:  
+
+	spring.mvc.view.prefix: /
+	spring.mvc.view.suffix: .jsp
+	spring.jpa.hibernate.ddl-auto=create
+	spring.jpa.show-sql=true
+	spring.messages.basename=validation
 
 ## Deployment
+Als Deployment-Tool wurde Maven verwendet.  
+
+	mvn spring-boot:run
 
 ## Quellen
 [1] https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/  
