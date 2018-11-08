@@ -30,7 +30,7 @@ Gruppengrösse: 1 Person
 + Aufsetzen einer Webservice-Schnittstelle
 + Registrierung von Benutzern mit entsprechender Persistierung
 
-###Anforderungen "zur Gänze erfüllt"
+### Anforderungen "zur Gänze erfüllt"
 + Login und Rückgabe einer Willkommensnachricht
 + Überprüfung der funktionalen Anforderungen mittels Regressionstests
 
