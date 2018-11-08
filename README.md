@@ -110,6 +110,6 @@ Damit unteranderem die HSQL Datenbank funktioniert, muss man folgenden Inhalt in
 Als Deployment-Tool wurde Maven verwendet.  
 
 	mvn spring-boot:run
-
+Die WEB-REST Schnittstelle ist nun über localhost:8080 erreichbar.
 ## Quellen
 [1] https://hellokoding.com/registration-and-login-example-with-spring-security-spring-boot-spring-data-jpa-hsql-jsp/  
