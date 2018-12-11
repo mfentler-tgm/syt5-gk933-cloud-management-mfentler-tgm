@@ -114,9 +114,7 @@ Um die REST Web-Schnittstelle zu erstellen wird Spring-Boot verwendet.
 Die Registrierung des Users wird im Controller gehandelt. Von dort wird der User mit Hilfe eines JPA-Repos gespeichert.  
 Login übernimmt Spring-Security in diesem Beispiel.  
 
-Für die Integrations Tests Klassen wird die Annotation @DataJpaTest verwendet. Die Test Methoden müssen mit der Annotation @Test markiert werden. Über Unit Test Klassen kommt @WebMvcTest. [2]  
-
-Leider bin ich noch nicht dazu gekommen diese Tests zu schreiben, werde das vielleicht aber noch nachholen, sofern ich Zeit dazu habe. (Nach der Mathe-SA)
+Für die Integrations Tests Klassen wird die Annotation @DataJpaTest verwendet. Die Test Methoden müssen mit der Annotation @Test markiert werden. Über Unit Test Klassen kommt @WebMvcTest. [2]
 
 ## Deployment
 Als Deployment-Tool wurde Maven verwendet.  
