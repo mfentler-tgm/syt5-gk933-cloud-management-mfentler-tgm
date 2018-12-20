@@ -49,24 +49,40 @@ Weiters existiert auch eine Entity für die Klasse Role. Da diese für die simpl
 Die JPA Repositories enthalten Funktionen wie findAll(),save(),... um die Daten zu bearbeiten oder Queries zu erstellen. In dem Fall ist dort die Methode findByEmail definiert (Interface).
 
 ### Controller
-Die UserController Klasse handelt das RequestMapping. Wenn die eine Anfrage zum Registrieren kommt, dann überprüft die folgende Methode ob die angegebenen Eingaben valid sind und added dann den User.  
+Die UserController Klasse bearbeitet die Anfragen vom User. Es wird ein UserRepository Bean erstellt, welches für das Einloggen und Registrieren die definierten Queries im UserRepository benötigt wird.  
 
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
+In der Klasse __"UserServiceImpl"__ wird für die Variable UserRepository die Spring Context-Dependency-Injection verwendet.  
+```java
+@Autowired
+    private UserRepository userRepository;
+```
+Für die Registrierung werden zwei Methoden erstellt, die jeweils die HTTP-Methoden GET und POST implementieren:  
 
-        if (bindingResult.hasErrors()) {
-            return "registration";
-        }
+1. sobald der User auf den Button "Registrieren" klickt wird ein HTTP-GET über "/registration" ausgeführt und folgende Methode aufgerufen. Dem __register.html__ wird das userForm angehängt. __Return registration__ liefert dann die View zurück. Dort kann der User dann seine Daten für den neuen User angeben.
+```java
+@RequestMapping(value = "/registration", method = RequestMethod.GET)
+public String registration(Model model) {
+	model.addAttribute("userForm", new User());
+	return "registration";
+}
+```
+2. Wenn der User das Formular dann abschickt wird die folgende Methode aufgerufen. Mit dem __Validator__ wird überprüft ob der User schon registriert ist. Andernfalls wird der neue User gespeichert, dieser eingeloggt mit der __autoLogin__ Methode von Spring-Security und der User dann auf die Welcome-Seite redirected.
+```java
+@RequestMapping(value = "/registration", method = RequestMethod.POST)
+public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+	userValidator.validate(userForm, bindingResult);
 
-        userService.save(userForm);
+	if (bindingResult.hasErrors()) {
+		return "registration";
+	}
 
-        securityService.autologin(userForm.getEmail(), userForm.getPasswordConfirm());
+	userService.save(userForm);
 
-        return "redirect:/welcome";
-    }
+	securityService.autologin(userForm.getEmail(), userForm.getPasswordConfirm());
 
-Die __POST Methode von /login__ ist in dieser Klasse nicht auffindbar, da sie schon von SpringSecurity bereitgestellt wird.  
+	return "redirect:/welcome";
+}
+```
 
 ### Spring Security
 Spring Security wird in diesem Beispiel verwendet um login/die Authentifizierung zu implementieren. Dort finden sich auch die Methoden, wie beispielsweise 'autologin()', die den User nach einer erfolgreichen Registrierung automatisch einloggen.  
